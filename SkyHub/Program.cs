@@ -13,6 +13,7 @@ using System.Text.Json;
 using SkyHub.Models.Flight_Details;
 using SkyHub.Controllers;
 using System.Security.Claims;
+using Microsoft.Win32;
 
 
 
@@ -22,6 +23,14 @@ namespace SkyHub
 {
     public class Program
     {
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddControllers()
+                    .AddJsonOptions(options =>
+                    {
+                        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+                    });
+        }
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -97,6 +106,7 @@ namespace SkyHub
                 });
             });
             var flights = new Flights();
+            var passenger = new Passenger();
             var options = new JsonSerializerOptions
             {
                 ReferenceHandler = ReferenceHandler.Preserve,
@@ -104,15 +114,22 @@ namespace SkyHub
             };
 
             var json = JsonSerializer.Serialize(flights, options);
+            var json1 = JsonSerializer.Serialize(passenger, options);
 
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            // Register the IUserService and its implementation
+            builder.Services.AddScoped<IUserService, UserService>();
+
+            // Other service registrations...
+            builder.Services.AddScoped<IBookingService, BookingService>();
+            builder.Services.AddScoped<IRouteService, RouteService>();
 
             // Register ASP.NET Core Identity
-           // builder.Services.AddIdentity<Users, IdentityRole>()
-              //  .AddEntityFrameworkStores<SkyHubDbContext>()
-              //  .AddDefaultTokenProviders();
+            // builder.Services.AddIdentity<Users, IdentityRole>()
+            //  .AddEntityFrameworkStores<SkyHubDbContext>()
+            //  .AddDefaultTokenProviders();
 
             // Other services (e.g., DbContext)
             builder.Services.AddDbContext<SkyHubDbContext>(options =>

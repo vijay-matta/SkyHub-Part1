@@ -9,22 +9,22 @@ namespace SkyHub.Models.Flight_Details
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)] // Ensures IDENTITY(1,1)
-        public int RouteId { get; set; }
+        public int? RouteId { get; set; }
 
         [Required, StringLength(100)]
-        public string Origin { get; set; }
+        public string? Origin { get; set; }
 
         [Required, StringLength(100)]
-        public string Destination { get; set; }
+        public string? Destination { get; set; }
 
         [Required]
-        public TimeSpan Duration { get; set; }
+        public TimeSpan? Duration { get; set; }
 
         [Required]
-        public decimal Distance { get; set; }
+        public decimal? Distance { get; set; }
 
         [Required]
-        public int FlightOwnerId { get; set; }
+        public int?  FlightOwnerId { get; set; }
 
         // Navigation Properties
         public FlightOwner FlightOwner { get; set; }
