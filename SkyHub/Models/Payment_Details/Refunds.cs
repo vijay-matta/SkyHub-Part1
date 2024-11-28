@@ -22,6 +22,9 @@ namespace SkyHub.Models.Payment_Details
         [Required]
         public DateTime RefundDate { get; set; } = DateTime.Now;
 
+        [Required, StringLength(100)]
+        public string RefundReason { get; set; }
+
         // Navigation Properties
         public virtual Payments Payment { get; set; }
     }

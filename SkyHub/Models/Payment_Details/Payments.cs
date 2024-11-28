@@ -32,6 +32,7 @@ namespace SkyHub.Models.Payment_Details
 
         // Navigation Properties
         public virtual Bookings Booking { get; set; }
+
         public virtual Refunds Refund { get; set; }
     }
 }

@@ -90,14 +90,15 @@ namespace SkyHub.Controllers
         }
 
         // Edit the profile of the logged-in user
-        [HttpPatch("profile")]
+        [HttpPatch("profile/edit")]
         public async Task<IActionResult> PatchProfile([FromBody] UserProfileDto updatedProfile)
         {
             var userName = GetUserNameFromToken(); // Retrieve UserName from the token
             var user = await _context.Users
-                                      .Include(u => u.Customer)  // Include related Passenger
-                                      .Include(u => u.FlightOwner) // Include related FlightOwner
-                                      .FirstOrDefaultAsync(u => u.UserName == userName);
+                           .Include(u => u.Customer)
+                           .Include(u => u.FlightOwner)
+                           .FirstOrDefaultAsync(u => u.UserName == userName);
+
 
             if (user == null)
             {
@@ -110,6 +111,9 @@ namespace SkyHub.Controllers
 
             if (!string.IsNullOrEmpty(updatedProfile.RoleType))
                 user.RoleType = updatedProfile.RoleType;
+
+            // Mark the user as modified explicitly
+            _context.Entry(user).State = EntityState.Modified;
 
             // Update properties for the Customer (Passenger) role if available
             if (user.RoleType == "Passenger" && user.Customer != null)
@@ -140,7 +144,11 @@ namespace SkyHub.Controllers
 
                 if (!string.IsNullOrEmpty(updatedProfile.Country))
                     user.Customer.Country = updatedProfile.Country;
+
+                // Mark the Customer entity as modified explicitly
+                _context.Entry(user.Customer).State = EntityState.Modified;
             }
+
             // Update properties for the FlightOwner role if available
             else if (user.RoleType == "FlightOwner" && user.FlightOwner != null)
             {
@@ -158,12 +166,17 @@ namespace SkyHub.Controllers
 
                 if (!string.IsNullOrEmpty(updatedProfile.CompanyName))
                     user.FlightOwner.CompanyName = updatedProfile.CompanyName;
+
+                // Mark the FlightOwner entity as modified explicitly
+                _context.Entry(user.FlightOwner).State = EntityState.Modified;
             }
+
 
             // Explicitly mark the entity as modified if needed
             if (user.Customer != null)
             {
-                _context.Entry(user.Customer).State = EntityState.Modified;
+                _context.Entry(user).State = EntityState.Modified;
+
             }
 
             if (user.FlightOwner != null)
@@ -176,19 +189,20 @@ namespace SkyHub.Controllers
             try
             {
                 await _context.SaveChangesAsync();
+                return Ok("Profile updated successfully.");
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
 
-            return Ok("Profile updated successfully.");
+            
         }
 
 
 
         // Delete the profile of the logged-in user
-        [HttpDelete("profile")]
+        [HttpDelete("profile/delete")]
         public async Task<IActionResult> DeleteProfile()
         {
             var userName = GetUserNameFromToken(); // Retrieve UserName from the token

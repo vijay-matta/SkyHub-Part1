@@ -125,6 +125,8 @@ namespace SkyHub
             // Other service registrations...
             builder.Services.AddScoped<IBookingService, BookingService>();
             builder.Services.AddScoped<IRouteService, RouteService>();
+            builder.Services.AddScoped<IPaymentService, PaymentService>();
+
 
             // Register ASP.NET Core Identity
             // builder.Services.AddIdentity<Users, IdentityRole>()

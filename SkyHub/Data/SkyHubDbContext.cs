@@ -22,7 +22,7 @@ namespace SkyHub.Data
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=VJ-S\\SQLEXPRESS;Database=SkyHub1;Trusted_Connection=True;Trust Server Certificate=True");
+            optionsBuilder.UseSqlServer("Server=VJ-S\\SQLEXPRESS;Database=SkyHub2;Trusted_Connection=True;Trust Server Certificate=True");
 
             //base.OnConfiguring(optionsBuilder);
 

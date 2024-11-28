@@ -9,6 +9,18 @@ namespace SkyHub.Models.Flight_Details
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)] // Ensures IDENTITY(1,1)
         public int SeatTypeId { get; set; }
 
+        [Required]
+        [StringLength(100)]
+        public string Name { get; set; }
+
+        [Required]
+        [Range(0, 150, ErrorMessage = "Age must be a valid number.")]
+        public int Age { get; set; }
+
+        [Required]
+        [RegularExpression("Adult|Child|Infant", ErrorMessage = "Passenger type must be either Adult, Child, or Infant.")]
+        public string PassengerType { get; set; } // Adult, Child, Infant
+
         [Required, StringLength(50)]
         public string SeatTypeName { get; set; } // e.g., Economy, Business, First Class
 

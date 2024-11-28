@@ -1,12 +1,16 @@
-﻿using SkyHub.Models.Flight_Details;
+﻿using SkyHub.DTOs;
+using SkyHub.Models.Flight_Details;
 
 namespace SkyHub.Services
 {
     public interface IBookingService
     {
-        Task<IEnumerable<Bookings>> GetAllBookingsAsync();
-        Task<Bookings> GetBookingByIdAsync(int bookingId);
-        Task UpdateBookingAsync(int bookingId, Bookings updatedBooking);
-        Task DeleteBookingAsync(int bookingId);
+        IEnumerable<BookingDto> GetAllBookings();
+        Task<int> CreateBooking(BookingDto bookingDTO);
+        BookingDto GetBookingById(int bookingId);
+        bool CancelBooking(int bookingId);
+
+        //void DeleteBooking(int bookingId);
+        List<BookingDto> GetBookingHistory(int userId);
     }
 }

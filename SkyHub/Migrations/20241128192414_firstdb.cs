@@ -27,6 +27,9 @@ namespace SkyHub.Migrations
                 {
                     SeatTypeId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Age = table.Column<int>(type: "int", nullable: false),
+                    PassengerType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SeatTypeName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     BaseFare = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
@@ -44,6 +47,7 @@ namespace SkyHub.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     PasswordHash = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    PasswordSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     RoleType = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     DateJoined = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -245,6 +249,9 @@ namespace SkyHub.Migrations
                     FlightId = table.Column<int>(type: "int", nullable: false),
                     BookingDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     NumSeats = table.Column<int>(type: "int", nullable: false),
+                    NumAdults = table.Column<int>(type: "int", nullable: false),
+                    NumChildren = table.Column<int>(type: "int", nullable: false),
+                    NumInfants = table.Column<int>(type: "int", nullable: false),
                     BookingStatus = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     CancelDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
@@ -372,7 +379,8 @@ namespace SkyHub.Migrations
                     PaymentId = table.Column<int>(type: "int", nullable: false),
                     RefundAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     RefundMode = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    RefundDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    RefundDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    RefundReason = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {

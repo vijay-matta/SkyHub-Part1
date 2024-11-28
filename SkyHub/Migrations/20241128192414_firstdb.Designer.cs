@@ -12,7 +12,7 @@ using SkyHub.Data;
 namespace SkyHub.Migrations
 {
     [DbContext(typeof(SkyHubDbContext))]
-    [Migration("20241125083517_firstdb")]
+    [Migration("20241128192414_firstdb")]
     partial class firstdb
     {
         /// <inheritdoc />
@@ -104,6 +104,15 @@ namespace SkyHub.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int>("FlightId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NumAdults")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NumChildren")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NumInfants")
                         .HasColumnType("int");
 
                     b.Property<int>("NumSeats")
@@ -242,8 +251,20 @@ namespace SkyHub.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SeatTypeId"));
 
+                    b.Property<int>("Age")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("BaseFare")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("PassengerType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SeatTypeName")
                         .IsRequired()
@@ -356,6 +377,11 @@ namespace SkyHub.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("RefundReason")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("RefundId");
 
@@ -516,6 +542,9 @@ namespace SkyHub.Migrations
 
                     b.Property<byte[]>("PasswordHash")
                         .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("PasswordSalt")
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("RoleType")
